@@ -1,0 +1,7 @@
+{
+  "*.ts": [
+    "pnpm eslint 'src/**' --fix",
+    "pnpm prettier --check 'src/**'",
+    "pnpm test:staged"
+  ]
+}
