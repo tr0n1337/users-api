@@ -1,12 +1,14 @@
 import * as express from "express";
 import { Request, Response } from "express";
-import HelloWorld from "@/HelloWorld";
+import { config } from "dotenv";
+
+config();
 
 const app = express();
+const port = process.env.PORT || 8000;
 
 app.get("/", (req: Request, res: Response) => {
-  res.send(new HelloWorld().message("Hello World!"));
+  res.send("Hello World!");
 });
 
-app.listen(3000, () => console.log("listening on port 3000!"));
-0;
+app.listen(port, () => console.log(`listening on port ${port}!`));
