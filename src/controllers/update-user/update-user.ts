@@ -1,12 +1,15 @@
 import { User } from "@/models/users";
-import { HTTPRequest, HTTPResponse } from "@/controllers/protocols";
 import {
-  IUpdateUserController,
+  HTTPRequest,
+  HTTPResponse,
+  IController,
+} from "@/controllers/protocols";
+import {
   IUpdateUserRepository,
   UpdateUserParams,
 } from "@/controllers/update-user/protocols";
 
-export class UpdateUserController implements IUpdateUserController {
+export class UpdateUserController implements IController {
   constructor(private readonly updateUserRepository: IUpdateUserRepository) {}
 
   async handle(
@@ -19,7 +22,7 @@ export class UpdateUserController implements IUpdateUserController {
       if (!body) {
         return {
           statusCode: 400,
-          body: "Missing body",
+          body: "Missing fields",
         };
       }
 

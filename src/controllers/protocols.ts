@@ -11,3 +11,7 @@ export type HTTPResponse<T> = {
   body: T | string;
   error?: Error | unknown;
 };
+
+export interface IController {
+  handle(httpRequest: HTTPRequest<unknown>): Promise<HTTPResponse<unknown>>;
+}
