@@ -1,7 +1,9 @@
 export type HTTPRequest<B> = {
   body?: B;
   headers?: unknown;
-  params?: unknown;
+  params?: {
+    id?: string;
+  };
 };
 
 export type HTTPResponse<T> = {
