@@ -1,5 +1,5 @@
 import { User } from "@/models/users";
-import { HTTPRequest, HTTPResponse } from "../protocols";
+import { HTTPRequest, HTTPResponse } from "@/controllers/protocols";
 
 export type UpdateUserParams = {
   firstName?: string;

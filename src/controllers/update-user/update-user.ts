@@ -1,10 +1,10 @@
 import { User } from "@/models/users";
-import { HTTPRequest, HTTPResponse } from "../protocols";
+import { HTTPRequest, HTTPResponse } from "@/controllers/protocols";
 import {
   IUpdateUserController,
   IUpdateUserRepository,
   UpdateUserParams,
-} from "./protocols";
+} from "@/controllers/update-user/protocols";
 
 export class UpdateUserController implements IUpdateUserController {
   constructor(private readonly updateUserRepository: IUpdateUserRepository) {}
