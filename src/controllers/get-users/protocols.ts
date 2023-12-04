@@ -1,5 +1,5 @@
 import { User } from "@/models/users";
-import { HTTPResponse } from "../protocols";
+import { HTTPResponse } from "@/controllers/protocols";
 
 export interface IGetUsersController {
   handle(): Promise<HTTPResponse<User[]>>;
