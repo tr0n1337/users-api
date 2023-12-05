@@ -24,8 +24,6 @@ export class MongoUpdateUserRepository implements IUpdateUserRepository {
 
     if (!user) throw new Error("User not updated");
 
-    const { _id, ...rest } = user;
-
-    return { id: _id.toHexString(), ...rest };
+    return MongoClient.mapMongoUserToUser(user);
   }
 }
