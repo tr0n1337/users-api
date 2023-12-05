@@ -8,7 +8,7 @@ export type HTTPRequest<B> = {
 
 export type HTTPResponse<T> = {
   statusCode: number;
-  body: T | string;
+  body: T;
   error?: Error | unknown;
 };
 
