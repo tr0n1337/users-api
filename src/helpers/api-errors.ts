@@ -12,7 +12,6 @@ export const HTTPResponseError = (
     statusCode,
     body: {
       message,
-      statusCode,
     },
   };
 };

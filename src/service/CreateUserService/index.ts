@@ -25,7 +25,7 @@ export class CreateUserService {
       );
 
       const missingFields = requiredFields.filter(
-        (field) => !body[field as keyof Omit<User, "id">],
+        (field) => !body[field as keyof CreateUserRequest],
       );
 
       if (invalidFields.length > 0) {
@@ -48,6 +48,10 @@ export class CreateUserService {
       }
 
       const users = await this.createUserRepository.createUser(body);
+
+      if (users === "emailExists") {
+        return HTTPResponseError(400, "Email already exists");
+      }
 
       if (!users) {
         return HTTPResponseError(400, "Unable to create user");

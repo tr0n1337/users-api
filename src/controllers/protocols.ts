@@ -14,7 +14,6 @@ export type HTTPResponse<T> = {
 
 export type HTTPError = {
   message: string;
-  statusCode: HTTPStatusCode;
 };
 
 export enum HTTPStatusCode {

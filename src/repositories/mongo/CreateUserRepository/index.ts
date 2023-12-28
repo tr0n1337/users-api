@@ -7,7 +7,15 @@ import { MongoUser } from "@/repositories";
 import { User } from "@/models/users";
 
 export class MongoCreateUserRepository implements ICreateUserRepository {
-  async createUser(params: CreateUserRequest): Promise<User | null> {
+  async createUser(
+    params: CreateUserRequest,
+  ): Promise<User | null | "emailExists"> {
+    const userByEmail = await MongoClient.db
+      .collection<MongoUser>("users")
+      .findOne({ email: params?.email });
+
+    if (userByEmail) return "emailExists";
+
     const { insertedId } = await MongoClient.db
       .collection("users")
       .insertOne(params);
