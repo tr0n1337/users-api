@@ -7,18 +7,28 @@ export type HTTPRequest<B> = {
 };
 
 export type HTTPResponse<T> = {
-  statusCode: HTTPStatusCode;
   body: T;
+  statusCode: HTTPStatusCode;
   error?: Error | unknown;
+};
+
+export type HTTPError = {
+  message: string;
+  statusCode: HTTPStatusCode;
 };
 
 export enum HTTPStatusCode {
   OK = 200,
   CREATED = 201,
   BAD_REQUEST = 400,
+  NOT_FOUND = 404,
   SERVER_ERROR = 500,
 }
 
 export interface IController {
-  handle(httpRequest: HTTPRequest<unknown>): Promise<HTTPResponse<unknown>>;
+  execute(httpRequest: HTTPRequest<unknown>): Promise<unknown>;
+}
+
+export interface IControllerWithId {
+  execute(id: string, httpRequest: HTTPRequest<unknown>): Promise<unknown>;
 }
