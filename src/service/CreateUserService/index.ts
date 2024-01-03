@@ -14,7 +14,7 @@ export class CreateUserService {
   ): Promise<HTTPResponse<User | HTTPError>> {
     try {
       const requiredFields = ["firstName", "lastName", "email", "password"];
-      const { body } = httpRequest || {};
+      const { body } = httpRequest ?? {};
 
       if (!body || Object.keys(body).length === 0) {
         return HTTPResponseError(400, "Please specify a body");
@@ -47,18 +47,18 @@ export class CreateUserService {
         return HTTPResponseError(400, "Invalid email");
       }
 
-      const users = await this.createUserRepository.createUser(body);
+      const user = await this.createUserRepository.createUser(body);
 
-      if (users === "emailExists") {
+      if (user === "emailExists") {
         return HTTPResponseError(400, "Email already exists");
       }
 
-      if (!users) {
+      if (!user) {
         return HTTPResponseError(400, "Unable to create user");
       }
 
       return {
-        body: users,
+        body: user,
         statusCode: 200,
       };
     } catch (error) {

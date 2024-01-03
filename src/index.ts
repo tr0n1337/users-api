@@ -9,7 +9,7 @@ const main = async () => {
 
   await MongoClient.connect();
 
-  const port = process.env.PORT || 8000;
+  const port = process.env.PORT ?? 8000;
 
   const app = server.listen(port, () =>
     console.log(`Listening on port ${port}!`),
