@@ -6,7 +6,6 @@ export const route = Router();
 route.delete("/users/id", async (_, res) => {
   res.status(404).send({
     message: "ID parameter required",
-    statusCode: 404,
   });
 });
 

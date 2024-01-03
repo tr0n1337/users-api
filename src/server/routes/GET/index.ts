@@ -18,7 +18,6 @@ route.get("/users", async (_, res) => {
 route.get("/users/id", async (_, res) => {
   res.status(404).send({
     message: "ID parameter required",
-    statusCode: 404,
   });
 });
 
