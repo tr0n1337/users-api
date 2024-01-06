@@ -5,7 +5,7 @@ import {
   ICreateUserRepository,
 } from "@/controllers/CreateUserController/protocols";
 import { HTTPError, HTTPRequest, HTTPResponse } from "@/controllers/protocols";
-import { HTTPResponseError } from "@/helpers/api-errors";
+import { HTTPResponseError } from "@/helpers/httpResponseError";
 
 export class CreateUserService {
   constructor(private readonly createUserRepository: ICreateUserRepository) {}

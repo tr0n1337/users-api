@@ -1,5 +1,5 @@
 import { HTTPError, HTTPResponse } from "@/controllers/protocols";
-import { HTTPResponseError } from "@/helpers/api-errors";
+import { HTTPResponseError } from "@/helpers/httpResponseError";
 import { IGetUserRepository } from "@/controllers/GetUserController/protocols";
 import { ObjectId } from "mongodb";
 import { User } from "@/models/users";

@@ -1,7 +1,7 @@
 import { User } from "@/models/users";
 import { IListUsersRepository } from "@/controllers/ListUsersController/protocols";
 import { HTTPError, HTTPResponse } from "@/controllers/protocols";
-import { HTTPResponseError } from "@/helpers/api-errors";
+import { HTTPResponseError } from "@/helpers/httpResponseError";
 
 export class ListUsersService {
   constructor(private readonly listUsersRepository: IListUsersRepository) {}

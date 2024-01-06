@@ -3,7 +3,7 @@ import {
   UpdateUserRequest,
 } from "@/controllers/UpdateUserController/protocols";
 import { HTTPRequest } from "@/controllers/protocols";
-import { HTTPResponseError } from "@/helpers/api-errors";
+import { HTTPResponseError } from "@/helpers/httpResponseError";
 import { ObjectId } from "mongodb";
 
 export class UpdateUserService {
