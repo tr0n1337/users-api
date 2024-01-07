@@ -9,7 +9,7 @@ export class DeleteUserRepository implements IDeleteUserRepository<User> {
 
     if (!user) return null;
 
-    const deletedUser = await this.model.destroy();
+    const deletedUser = await this.model.destroy({ where: { id } });
 
     if (deletedUser === 0) return null;
 

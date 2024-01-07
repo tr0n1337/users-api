@@ -1,13 +1,5 @@
-import { config } from "dotenv";
+import { app } from "@/server";
 
-import { server } from "@/server";
+const { PORT } = process.env;
 
-const main = async () => {
-  config();
-
-  const port = process.env.PORT || 3001;
-
-  server.listen(port, () => console.log(`Listening on port ${port}!`));
-};
-
-main();
+app.listen(PORT, () => console.log(`Listening on port ${PORT}!`));

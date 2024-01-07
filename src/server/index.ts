@@ -1,21 +1,22 @@
+import "dotenv/config";
 import * as express from "express";
 import * as cors from "cors";
 
 import { routes } from "@/server/routes";
 
-const server = express();
+const app = express();
 
-server.use(express.json());
-server.use((_, res, next) => {
+app.use(express.json());
+app.use((_, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // alterar o * para o domínio da aplicação pos deploy.
   res.header(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept",
   );
   res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-  server.use(cors);
+  app.use(cors);
   next();
 });
-server.use(routes);
+app.use(routes);
 
-export { server };
+export { app };
