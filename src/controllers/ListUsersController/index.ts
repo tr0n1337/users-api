@@ -1,15 +1,12 @@
-import { IListUsersRepository } from "@/controllers/ListUsersController/protocols";
-import { HTTPError, HTTPResponse, IController } from "@/controllers/protocols";
-import { User } from "@/models/users";
-import { ListUsersService } from "@/service/ListUsersService";
+import User from "@/database/models/User";
+import { ListUsersService } from "@/services/ListUsersService";
+import { IController } from "@/controllers/protocols";
 
-export class ListUsersController implements IController {
-  constructor(private readonly getUsersRepository: IListUsersRepository) {}
+export class ListUsersController implements IController<User[]> {
+  constructor(private readonly listUsersService: ListUsersService) {}
 
-  async execute(): Promise<HTTPResponse<User[] | HTTPError>> {
-    const listUsersService = new ListUsersService(this.getUsersRepository);
-
-    const users = await listUsersService.listUsers();
+  async execute() {
+    const users = await this.listUsersService.listUsers();
 
     return users;
   }

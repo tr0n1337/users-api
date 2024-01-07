@@ -1,14 +1,17 @@
 import { Router } from "express";
+import { ListUsersRepository } from "@/repositories/mysql/ListUsersRepository";
+import { ListUsersService } from "@/services/ListUsersService";
 import { ListUsersController } from "@/controllers/ListUsersController";
-import { MongoListUsersRepository } from "@/repositories/mongo/ListUsersRepository";
-import { MongoGetUserRepository } from "@/repositories/mongo/GetUserRepository";
+import { GetUserRepository } from "@/repositories/mysql/GetUserRepository";
+import { GetUserService } from "@/services/GetUserService";
 import { GetUserController } from "@/controllers/GetUserController";
 
 export const route = Router();
 
 route.get("/users", async (_, res) => {
-  const mongoListUsersRepository = new MongoListUsersRepository();
-  const listUsersController = new ListUsersController(mongoListUsersRepository);
+  const listUsersRepository = new ListUsersRepository();
+  const listUsersService = new ListUsersService(listUsersRepository);
+  const listUsersController = new ListUsersController(listUsersService);
 
   const { body, statusCode } = await listUsersController.execute();
 
@@ -22,8 +25,9 @@ route.get("/users/id", async (_, res) => {
 });
 
 route.get("/users/id/:id", async (req, res) => {
-  const mongoGetUserRepository = new MongoGetUserRepository();
-  const getUserController = new GetUserController(mongoGetUserRepository);
+  const getUserRepository = new GetUserRepository();
+  const getUserService = new GetUserService(getUserRepository);
+  const getUserController = new GetUserController(getUserService);
 
   const { body, statusCode } = await getUserController.execute({
     params: req.params,

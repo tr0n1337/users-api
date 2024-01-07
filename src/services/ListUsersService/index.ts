@@ -1,10 +1,12 @@
-import { User } from "@/models/users";
-import { IListUsersRepository } from "@/controllers/ListUsersController/protocols";
+import User from "@/database/models/User";
+import { IListUsersRepository } from "@/repositories";
 import { HTTPError, HTTPResponse } from "@/controllers/protocols";
 import { HTTPResponseError } from "@/helpers/httpResponseError";
 
 export class ListUsersService {
-  constructor(private readonly listUsersRepository: IListUsersRepository) {}
+  constructor(
+    private readonly listUsersRepository: IListUsersRepository<User>,
+  ) {}
 
   async listUsers(): Promise<HTTPResponse<User[] | HTTPError>> {
     try {

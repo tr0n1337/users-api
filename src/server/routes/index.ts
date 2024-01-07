@@ -9,3 +9,4 @@ routes.use(GET);
 routes.use(POST);
 routes.use(PATCH);
 routes.use(DELETE);
+routes.use((_, res) => res.status(404).send({ message: "Route not found" }));

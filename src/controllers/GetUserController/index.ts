@@ -1,24 +1,14 @@
-import { GetUserService } from "@/service/GetUserService";
-import {
-  HTTPError,
-  HTTPRequest,
-  HTTPResponse,
-  IController,
-} from "@/controllers/protocols";
-import { IGetUserRepository } from "@/controllers/GetUserController/protocols";
-import { User } from "@/models/users";
+import User from "@/database/models/User";
+import { GetUserService } from "@/services/GetUserService";
+import { IController, HTTPRequest } from "@/controllers/protocols";
 
-export class GetUserController implements IController {
-  constructor(private readonly getUserRepository: IGetUserRepository) {}
+export class GetUserController implements IController<User> {
+  constructor(private readonly getUserService: GetUserService) {}
 
-  async execute(
-    httpRequest: HTTPRequest<unknown>,
-  ): Promise<HTTPResponse<User | HTTPError>> {
-    const getUserService = new GetUserService(this.getUserRepository);
-
+  async execute(httpRequest: HTTPRequest<unknown>) {
     const { id } = httpRequest?.params ?? {};
 
-    const user = await getUserService.getUser(id);
+    const user = await this.getUserService.getUser(id);
 
     return user;
   }

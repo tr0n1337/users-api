@@ -1,6 +1,7 @@
 import { Router } from "express";
+import { UpdateUserRepository } from "@/repositories/mysql/UpdateUserRepository";
+import { UpdateUserService } from "@/services/UpdateUserService";
 import { UpdateUserController } from "@/controllers/UpdateUserController";
-import { MongoUpdateUserRepository } from "@/repositories/mongo/UpdateUserRepository";
 export const route = Router();
 
 route.patch("/users/id", async (_, res) => {
@@ -10,10 +11,9 @@ route.patch("/users/id", async (_, res) => {
 });
 
 route.patch("/users/id/:id", async (req, res) => {
-  const mongoUpdateUserRepository = new MongoUpdateUserRepository();
-  const updateUserController = new UpdateUserController(
-    mongoUpdateUserRepository,
-  );
+  const updateUserRepository = new UpdateUserRepository();
+  const updateUserService = new UpdateUserService(updateUserRepository);
+  const updateUserController = new UpdateUserController(updateUserService);
 
   const { body, statusCode } = await updateUserController.execute({
     body: req.body,

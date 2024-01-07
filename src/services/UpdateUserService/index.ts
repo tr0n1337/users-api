@@ -1,21 +1,20 @@
-import {
-  IUpdateUserRepository,
-  UpdateUserRequest,
-} from "@/controllers/UpdateUserController/protocols";
+import User from "@/database/models/User";
+import { IUpdateUserRepository, UpdateUserRequest } from "@/repositories";
 import { HTTPRequest } from "@/controllers/protocols";
 import { HTTPResponseError } from "@/helpers/httpResponseError";
-import { ObjectId } from "mongodb";
 
 export class UpdateUserService {
-  constructor(private readonly updateUserRepository: IUpdateUserRepository) {}
+  constructor(
+    private readonly updateUserRepository: IUpdateUserRepository<User>,
+  ) {}
 
-  async updateUser(httpRequest: HTTPRequest<UpdateUserRequest | null>) {
+  async updateUser(httpRequest: HTTPRequest<UpdateUserRequest<User> | null>) {
     try {
       const fields = ["firstName", "lastName"];
       const notChangeable = ["email", "password"];
       const { params, body } = httpRequest ?? {};
 
-      if (!params?.id || !ObjectId.isValid(params?.id)) {
+      if (!params?.id) {
         return HTTPResponseError(400, "ID not found");
       }
 

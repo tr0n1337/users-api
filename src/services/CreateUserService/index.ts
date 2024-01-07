@@ -1,17 +1,15 @@
+import User from "@/database/models/User";
 import validator from "validator";
-import { User } from "@/models/users";
-import {
-  CreateUserRequest,
-  ICreateUserRepository,
-} from "@/controllers/CreateUserController/protocols";
-import { HTTPError, HTTPRequest, HTTPResponse } from "@/controllers/protocols";
+import { ICreateUserRepository, CreateUserRequest } from "@/repositories";
+import { HTTPRequest } from "@/controllers/protocols";
 import { HTTPResponseError } from "@/helpers/httpResponseError";
 
 export class CreateUserService {
-  constructor(private readonly createUserRepository: ICreateUserRepository) {}
-  async createUser(
-    httpRequest: HTTPRequest<CreateUserRequest | null>,
-  ): Promise<HTTPResponse<User | HTTPError>> {
+  constructor(
+    private readonly createUserRepository: ICreateUserRepository<User>,
+  ) {}
+
+  async createUser(httpRequest: HTTPRequest<CreateUserRequest<User> | null>) {
     try {
       const requiredFields = ["firstName", "lastName", "email", "password"];
       const { body } = httpRequest ?? {};
@@ -25,7 +23,7 @@ export class CreateUserService {
       );
 
       const missingFields = requiredFields.filter(
-        (field) => !body[field as keyof CreateUserRequest],
+        (field) => !body[field as keyof CreateUserRequest<User>],
       );
 
       if (invalidFields.length > 0) {

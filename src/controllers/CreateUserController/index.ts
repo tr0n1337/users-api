@@ -1,24 +1,14 @@
-import {
-  HTTPError,
-  HTTPRequest,
-  HTTPResponse,
-  IController,
-} from "@/controllers/protocols";
-import {
-  CreateUserRequest,
-  ICreateUserRepository,
-} from "@/controllers/CreateUserController/protocols";
-import { User } from "@/models/users";
-import { CreateUserService } from "@/service/CreateUserService";
+import User from "@/database/models/User";
+import { CreateUserRequest } from "@/repositories";
+import { CreateUserService } from "@/services/CreateUserService";
+import { IController, HTTPRequest } from "@/controllers/protocols";
 
-export class CreateUserController implements IController {
-  constructor(private readonly createUserRepository: ICreateUserRepository) {}
-  async execute(
-    httpRequest: HTTPRequest<CreateUserRequest | null>,
-  ): Promise<HTTPResponse<User | HTTPError>> {
-    const createUserService = new CreateUserService(this.createUserRepository);
+export class CreateUserController implements IController<User> {
+  constructor(private readonly createUserService: CreateUserService) {}
 
-    const user = await createUserService.createUser(httpRequest);
+  async execute(httpRequest: HTTPRequest<CreateUserRequest<User> | null>) {
+    const user = await this.createUserService.createUser(httpRequest);
+
     return user;
   }
 }

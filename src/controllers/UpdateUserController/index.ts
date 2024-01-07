@@ -1,24 +1,12 @@
-import { User } from "@/models/users";
-import {
-  HTTPError,
-  HTTPRequest,
-  HTTPResponse,
-  IController,
-} from "@/controllers/protocols";
-import {
-  IUpdateUserRepository,
-  UpdateUserRequest,
-} from "@/controllers/UpdateUserController/protocols";
-import { UpdateUserService } from "@/service/UpdateUserService";
+import User from "@/database/models/User";
+import { UpdateUserRequest } from "@/repositories";
+import { UpdateUserService } from "@/services/UpdateUserService";
+import { IController, HTTPRequest } from "@/controllers/protocols";
 
-export class UpdateUserController implements IController {
-  constructor(private readonly updateUserRepository: IUpdateUserRepository) {}
-  async execute(
-    httpRequest: HTTPRequest<UpdateUserRequest | null>,
-  ): Promise<HTTPResponse<User | HTTPError>> {
-    const updateUserService = new UpdateUserService(this.updateUserRepository);
-
-    const user = await updateUserService.updateUser(httpRequest);
+export class UpdateUserController implements IController<User> {
+  constructor(private readonly updateUserService: UpdateUserService) {}
+  async execute(httpRequest: HTTPRequest<UpdateUserRequest<User> | null>) {
+    const user = await this.updateUserService.updateUser(httpRequest);
     return user;
   }
 }

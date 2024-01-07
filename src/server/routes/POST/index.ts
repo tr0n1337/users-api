@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { MongoCreateUserRepository } from "@/repositories/mongo/CreateUserRepository";
+import { CreateUserRepository } from "@/repositories/mysql/CreateUserRepository";
+import { CreateUserService } from "@/services/CreateUserService";
 import { CreateUserController } from "@/controllers/CreateUserController";
 export const route = Router();
 
 route.post("/users", async (req, res) => {
-  const mongoCreateUserRepository = new MongoCreateUserRepository();
-  const createUserController = new CreateUserController(
-    mongoCreateUserRepository,
-  );
+  const createUserRepository = new CreateUserRepository();
+  const createUserService = new CreateUserService(createUserRepository);
+  const createUserController = new CreateUserController(createUserService);
 
   const { body, statusCode } = await createUserController.execute({
     body: req.body,

@@ -24,10 +24,8 @@ export enum HTTPStatusCode {
   SERVER_ERROR = 500,
 }
 
-export interface IController {
-  execute(httpRequest: HTTPRequest<unknown>): Promise<unknown>;
-}
-
-export interface IControllerWithId {
-  execute(id: string, httpRequest: HTTPRequest<unknown>): Promise<unknown>;
+export interface IController<T> {
+  execute(
+    httpRequest: HTTPRequest<unknown>,
+  ): Promise<HTTPResponse<T | HTTPError>>;
 }

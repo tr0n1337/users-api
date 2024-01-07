@@ -1,16 +1,17 @@
 import { HTTPError, HTTPResponse } from "@/controllers/protocols";
 import { HTTPResponseError } from "@/helpers/httpResponseError";
-import { ObjectId } from "mongodb";
-import { User } from "@/models/users";
-import { IDeleteUserRepository } from "@/controllers/DeleteUserController/protocols";
+import { IDeleteUserRepository } from "@/repositories";
+import User from "@/database/models/User";
 
 export class DeleteUserService {
-  constructor(private readonly deleteUserRepository: IDeleteUserRepository) {}
+  constructor(
+    private readonly deleteUserRepository: IDeleteUserRepository<User>,
+  ) {}
   async deleteUser(
     id: string | undefined,
   ): Promise<HTTPResponse<User | HTTPError>> {
     try {
-      if (!id || !ObjectId.isValid(id)) {
+      if (!id) {
         return HTTPResponseError(400, "ID not found");
       }
 

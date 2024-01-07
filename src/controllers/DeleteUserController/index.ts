@@ -1,24 +1,14 @@
-import { DeleteUserService } from "@/service/DeleteUserService";
-import {
-  HTTPError,
-  HTTPRequest,
-  HTTPResponse,
-  IController,
-} from "@/controllers/protocols";
-import { IDeleteUserRepository } from "@/controllers/DeleteUserController/protocols";
-import { User } from "@/models/users";
+import User from "@/database/models/User";
+import { DeleteUserService } from "@/services/DeleteUserService";
+import { IController, HTTPRequest } from "@/controllers/protocols";
 
-export class DeleteUserController implements IController {
-  constructor(private readonly deleteUserRepository: IDeleteUserRepository) {}
+export class DeleteUserController implements IController<User> {
+  constructor(private readonly deleteUserService: DeleteUserService) {}
 
-  async execute(
-    httpRequest: HTTPRequest<unknown>,
-  ): Promise<HTTPResponse<User | HTTPError>> {
-    const getUserService = new DeleteUserService(this.deleteUserRepository);
-
+  async execute(httpRequest: HTTPRequest<unknown>) {
     const { id } = httpRequest?.params ?? {};
 
-    const user = await getUserService.deleteUser(id);
+    const user = await this.deleteUserService.deleteUser(id);
 
     return user;
   }
