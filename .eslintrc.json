@@ -15,5 +15,6 @@
     "project": ["./tsconfig.json"]
   },
   "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["src/database/migrations/*.js"],
   "rules": {}
 }
