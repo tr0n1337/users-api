@@ -5,6 +5,7 @@
   "collectCoverageFrom": [
     "<rootDir>/src/**/*.ts"
   ],
+  "preset": "ts-jest",
   "coverageDirectory": "coverage",
   "testEnvironment": "node",
   "transform": {

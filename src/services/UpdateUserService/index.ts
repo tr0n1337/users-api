@@ -1,4 +1,5 @@
 import User from "@/database/models/User";
+import { validate as uuidValidate } from "uuid";
 import { IUpdateUserRepository, UpdateUserRequest } from "@/repositories";
 import { HTTPRequest } from "@/controllers/protocols";
 import { HTTPResponseError } from "@/helpers/httpResponseError";
@@ -14,7 +15,7 @@ export class UpdateUserService {
       const notChangeable = ["email", "password"];
       const { params, body } = httpRequest ?? {};
 
-      if (!params?.id) {
+      if (!params?.id || !uuidValidate(params?.id)) {
         return HTTPResponseError(400, "ID not found");
       }
 

@@ -1,7 +1,8 @@
+import User from "@/database/models/User";
+import { validate as uuidValidate } from "uuid";
 import { HTTPError, HTTPResponse } from "@/controllers/protocols";
 import { HTTPResponseError } from "@/helpers/httpResponseError";
 import { IGetUserRepository } from "@/repositories";
-import User from "@/database/models/User";
 
 export class GetUserService {
   constructor(private readonly getUserRepository: IGetUserRepository<User>) {}
@@ -9,7 +10,9 @@ export class GetUserService {
     id: string | undefined,
   ): Promise<HTTPResponse<User | HTTPError>> {
     try {
-      if (!id) return HTTPResponseError(400, "ID not found");
+      if (!id || !uuidValidate(id)) {
+        return HTTPResponseError(400, "ID not found");
+      }
 
       const user = await this.getUserRepository.getUser(id);
 

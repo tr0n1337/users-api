@@ -1,24 +1,50 @@
-version: "3.7"
+version: "3.8"
 services:
-  app:
-    build: ./
-    ports:
-      - 3001:3001
+  users-api-mysql:
+    image: mysql:8.0
+    container_name: users-api-mysql
+    restart: always
+    env_file: .env
     environment:
-      DB_USER: root
-      DB_PASSWORD: password
-      DB_NAME: users-api
-      DB_HOST: db
+      - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_USER=$MYSQL_USERNAME
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_DOCKER_PORT=$MYSQL_DOCKER_PORT
+    ports:
+      - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
+    expose:
+      - $MYSQL_DOCKER_PORT
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
     volumes:
-      - ./:/app
+      - mysql-data:/var/lib/mysql
+  app:
+    depends_on:
+      users-api-mysql:
+        condition: service_healthy
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    working_dir: /app
     container_name: users-api
     restart: always
-    depends_on:
-      - db
-  db:
-    image: mysql:latest
-    ports:
-      - 3306:3306
+    env_file: ./.env
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-    restart: always
+      - MYSQL_HOST=users-api-mysql
+      - MYSQL_LOCAL_PORT=$MYSQL_DOCKER_PORT
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USERNAME=$MYSQL_USERNAME
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/app
+
+volumes:
+  mysql-data:
+  app-data:
